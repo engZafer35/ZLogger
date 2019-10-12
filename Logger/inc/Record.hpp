@@ -58,11 +58,11 @@ class Record
 {
 public:
     /** \brief constructor */
-    Record(LOG_LEVEL level) : m_level{level}, m_lineNum{0}, m_fileName{NULL_PTR}, m_funcName{NULL_PTR} {};
+    Record(LOG_LEVEL level) : m_lineNum{0}, m_level{level}, m_fileName{NULL_PTR}, m_funcName{NULL_PTR} {};
 
     /** \brief if user want to store line number, file name and function name, this constructor should be used */
     Record(LOG_LEVEL level, U32 line, const char*fileName, const char*funcName) : \
-           m_level{level}, m_lineNum{line}, m_fileName{fileName}, m_funcName{funcName} {};
+            m_lineNum{line}, m_level{level}, m_fileName{fileName}, m_funcName{funcName} {};
 
     /** \brief destructor*/
     virtual ~Record(void){};
