@@ -18,7 +18,7 @@
 /******************************MACRO DEFINITIONS*******************************/
 
 /*******************************TYPE DEFINITIONS ******************************/
-namespace logger
+namespace zlogger
 {
 typedef enum _LOG_LEVEL
 {
@@ -26,7 +26,6 @@ typedef enum _LOG_LEVEL
     EN_LOG_LEVEL_FATAL,
     EN_LOG_LEVEL_ERROR,
     EN_LOG_LEVEL_WARNING,
-    EN_LOG_LEVEL_INFO,
     EN_LOG_LEVEL_DEBUG,
     EN_LOG_LEVEL_VERBOSE
 }LOG_LEVEL;

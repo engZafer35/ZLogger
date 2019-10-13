@@ -15,7 +15,7 @@
 /*********************************INCLUDES*************************************/
 #include <vector>
 #include <iostream>
-
+#include "GlobalDefinitions.hpp"
 #include "ISubLogger.hpp"
 #include "Singleton.hpp"
 #include "LogLevel.hpp"
@@ -23,7 +23,7 @@
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
-namespace logger
+namespace zlogger
 {
 #define LOGGER_DEFAULT_ID (0) ///<default logger ID
 }
@@ -33,7 +33,7 @@ namespace logger
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 
 /********************************* CLASS **************************************/
-namespace logger
+namespace zlogger
 {
 
 /*

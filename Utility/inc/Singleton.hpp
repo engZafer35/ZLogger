@@ -13,7 +13,6 @@
 #ifndef __UTILITY_SINGLETON_HPP__
 #define __UTILITY_SINGLETON_HPP__
 /*********************************INCLUDES*************************************/
-#include "GlobalDefinitions.hpp"
 #include <iostream>
 /******************************* NAME SPACE ***********************************/
 

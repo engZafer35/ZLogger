@@ -31,24 +31,45 @@
 
 /********************************* CLASS **************************************/
 
-namespace logger
+namespace zlogger
 {
 
-/*for string record*/
-inline void operator<<(std::ostringstream &stream, const char *str)
+template<typename T>
+extern inline void numToStr(std::string &str, T ptr)
 {
-    if (nullptr == str)
-    {
-        str =  "(NULL_STR)";
-    }
-
-    std::operator<<(stream, str);
+    std::cout << "numTostr NULLLLLL" << "\n";
 }
 
-/*for string record*/
-inline void operator<<(std::ostringstream& stream, const std::string& data)
+template<>
+inline void numToStr<char*>(std::string &str, char* ptr)
 {
-    operator<<(stream, data.c_str());
+    std::cout << "numTostr CHAR" << "\n";
+    str += std::to_string(*ptr);
+    str += "-";
+}
+
+template<>
+inline void numToStr<const char*>(std::string &str, const char* ptr)
+{
+    std::cout << "numTostr CHAR" << "\n";
+    str += std::to_string(*ptr);
+    str += "-";
+}
+
+template<>
+inline void numToStr<int*>(std::string &str, int* ptr)
+{
+    std::cout << "numTostr int" << "\n";
+    str += std::to_string(*ptr);
+    str += "-";
+}
+
+template<>
+inline void numToStr<const int*>(std::string &str, const int* ptr)
+{
+    std::cout << "numTostr const int" << "\n";
+    str += std::to_string(*ptr);
+    str += "-";
 }
 
 class Record
@@ -73,8 +94,8 @@ public:
         return *this;
     }
 
-    template<typename T>
-    Record& operator<<(T &r);
+//    template<typename T>
+//    Record& operator<<(T &r);
 
     template<typename T>
     Record& operator<<(const T &r);
@@ -83,26 +104,29 @@ public:
      * \brief store string data
      * \param string data address
      */
-    inline Record& operator<<(const char * const p)
+    inline Record& operator<<(const char *p)
     {
         std::cout << "string pointer" << std::endl;
 
-        m_message << p;
+        m_message += p;
         return *this;
     }
 
-    /*
-     * \brief () operator using for store array
-     * \param address of data
-     * \param length
-     */
-    Record& operator()(const void *ptr, unsigned int leng)
-    {
-        std::cout << "operator ()" << std::endl;
+//    /*
+//     * \brief () operator using for store array
+//     * \param address of data
+//     * \param length
+//     */
+//    Record& operator()(const void *ptr, unsigned int leng)
+//    {
+//        std::cout << "operator ()" << std::endl;
+//
+//        loadArray(static_cast<const char*>(ptr), leng);
+//        return *this;
+//    }
 
-        loadArray(static_cast<const char*>(ptr), leng);
-        return *this;
-    }
+    template<typename T>
+    Record& operator()(const T *buff, unsigned int leng);
 
     /**
      * \brief load array which has any type.
@@ -111,13 +135,14 @@ public:
      * \param length
      */
     template<typename T>
-    Record& loadArray(T buff, unsigned int leng)
+    Record& loadArray(const T buff, unsigned int leng)
     {
-        std::cout << "Template loadArray" << std::endl;
+        std::cout << "Template loadArray" << typeid(T).name() << std::endl;
 
         for(unsigned int i = 0; i < leng; i++)
         {
             data<T>.push_back(buff + i);
+            numToStr(m_dataStr, buff + i);
         }
 
         return *this;
@@ -163,9 +188,18 @@ public:
      * \brief get all string message
      * \return string data reference
      */
-    virtual const std::ostringstream& getMessage(void) const
+    virtual const std::string& getMessage(void) const
     {
         return m_message;
+    }
+
+    /**
+     * \brief get data string
+     * \return string data reference
+     */
+    virtual const std::string& getDataStr(void) const
+    {
+        return m_dataStr;
     }
 
     /**
@@ -185,13 +219,51 @@ private:
     template<typename T>
     static std::vector<T> data;
 
-    std::ostringstream m_message; /*!< All string msg will be stored here. */
+    std::string m_message; /*!< All string msg will be stored here. */
+    std::string m_dataStr;
 
     unsigned int m_lineNum;
     LOG_LEVEL m_level;
     const char * const m_fileName;
     const char * const m_funcName;
 }; // class Record
+
+/**  All different type will store in this vector.*/
+template<typename T>
+std::vector<T> Record::data;
+
+
+template<typename T>
+inline Record& Record::operator()(const T *buff, unsigned int leng)
+{
+    std::cout << "operator() ----" << "\n";
+
+    char *p = (char *)(buff);
+
+    for(unsigned int i = 0; i < leng; i++)
+    {
+        data<char *>.push_back(p + i);
+    }
+
+    return *this;
+}
+
+template<>
+inline Record& Record::operator()<int>(const int *buff, unsigned int leng)
+{
+    std::cout << "operator() int" << "\n";
+    loadArray(buff, leng);
+    return *this;
+}
+
+template<>
+inline Record& Record::operator()<char>(const char *buff, unsigned int leng)
+{
+    std::cout << "operator() CHAR" << "\n";
+    loadArray(buff, leng);
+    return *this;
+}
+
 
 /**
  *  \brief Record int number
@@ -203,21 +275,22 @@ inline Record& Record::operator<< <int>(const int &r)
     std::cout << "int number " << std::endl;
 
     data <int>.push_back(r);
+    numToStr(m_dataStr, &r);
     return *this;
 }
 
-/**
- *  \brief Record data which has reference type
- *  \tparam any data type.
- */
-template<typename T>
-inline Record& Record::operator<<(T &r)
-{
-    std::cout << "Template referance" << std::endl;
-
-    data<T*>.push_back((T*)&r);
-    return *this;
-}
+///**
+// *  \brief Record data which has reference type
+// *  \tparam any data type.
+// */
+//template<typename T>
+//inline Record& Record::operator<<(T &r)
+//{
+//    std::cout << "Template referance" << std::endl;
+//
+//    data<T*>.push_back((T*)&r);
+//    return *this;
+//}
 
 /**
  *  \brief Record data which has const reference type
@@ -238,16 +311,14 @@ inline Record& Record::operator<<(const T &r)
  * \tparam std::string class
  */
 template<>
-inline Record& Record::operator<< <std::string>(std::string &r)
+inline Record& Record::operator<< <std::string>(const std::string &r)
 {
     std::cout << "Template string referance " << std::endl;
-    m_message << r;
+
+    m_message += r;
     return *this;
 }
 
-/**  All different type will store in this vector.*/
-template<typename T>
-std::vector<T> Record::data;
 
 }//namespace logger
 #endif /* __LOGGER_RECORD_HPP__ */

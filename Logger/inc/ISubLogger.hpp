@@ -28,7 +28,7 @@
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /********************************* CLASS **************************************/
-namespace logger
+namespace zlogger
 {
 class ISubLogger
 {
