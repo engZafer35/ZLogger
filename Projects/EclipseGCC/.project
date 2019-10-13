@@ -41,6 +41,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/README.md</locationURI>
 		</link>
 		<link>
+			<name>SubLoggers</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/SubLoggers</locationURI>
+		</link>
+		<link>
 			<name>TickCounters</name>
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/TickCounters</locationURI>

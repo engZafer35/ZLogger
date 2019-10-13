@@ -59,7 +59,7 @@ public:
 
     void operator+=(Record &record);            /**< get Record data */
 
-    Logger<LoggerID> & addSubLogger(ISubLogger *subLogger); /**< add sublogger */
+    Logger<LoggerID> & addSubLogger(ISubLogger *sublogger); /**< add sublogger */
 
 private:
     LOG_LEVEL m_logLevel;
@@ -130,7 +130,7 @@ inline Logger<LoggerID> & Logger<LoggerID>::addSubLogger(ISubLogger *sublogger)
  * \brief get logger class address(pointer)
  */
 template <int LoggerID>
-Logger<LoggerID>* getLogger(void)
+extern inline Logger<LoggerID>* getLogger(void)
 {
     return Logger<LoggerID>::getInstance();
 }
@@ -138,10 +138,7 @@ Logger<LoggerID>* getLogger(void)
 /**
  * \brief get logger address(pointer) which has default logger ID
  */
-Logger<LOGGER_DEFAULT_ID>* getLogger(void)
-{
-    return Logger<LOGGER_DEFAULT_ID>::getInstance();
-}
+Logger<LOGGER_DEFAULT_ID>* getLogger(void);
 
 /**
  * \brieff create a logger with sent id
@@ -151,7 +148,7 @@ Logger<LOGGER_DEFAULT_ID>* getLogger(void)
  * \return logger reference
  */
 template < int LoggerID>
-Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
+extern inline Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
 {
     static Logger<LoggerID> logger(level);
     return logger.addSubLogger(sublogger);
@@ -162,10 +159,7 @@ Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
  * \param  logger level
  * \return logger reference
  */
-Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level = EN_LOG_LEVEL_VERBOSE)
-{
-    return loggerInit<LOGGER_DEFAULT_ID>(level, nullptr /*TODO: load console logger*/);
-}
+Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level = EN_LOG_LEVEL_VERBOSE);
 
 }//namespace logger
 

@@ -13,9 +13,7 @@
 #ifndef __LOGGER_RECORD_HPP__
 #define __LOGGER_RECORD_HPP__
 /*********************************INCLUDES*************************************/
-#include "GlobalDefinitions.hpp"
 #include "LogLevel.hpp"
-#include "IRecord.hpp"
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -35,7 +33,6 @@
 
 namespace logger
 {
-
 
 /*for string record*/
 inline void operator<<(std::ostringstream &stream, const char *str)
@@ -58,10 +55,10 @@ class Record
 {
 public:
     /** \brief constructor */
-    Record(LOG_LEVEL level) : m_lineNum{0}, m_level{level}, m_fileName{NULL_PTR}, m_funcName{NULL_PTR} {};
+    Record(LOG_LEVEL level) : m_lineNum{0}, m_level{level}, m_fileName{nullptr}, m_funcName{nullptr} {};
 
     /** \brief if user want to store line number, file name and function name, this constructor should be used */
-    Record(LOG_LEVEL level, U32 line, const char*fileName, const char*funcName) : \
+    Record(LOG_LEVEL level, const char*fileName, const char*funcName, unsigned int line) : \
             m_lineNum{line}, m_level{level}, m_fileName{fileName}, m_funcName{funcName} {};
 
     /** \brief destructor*/
@@ -99,7 +96,7 @@ public:
      * \param address of data
      * \param length
      */
-    Record& operator()(const void *ptr, int leng)
+    Record& operator()(const void *ptr, unsigned int leng)
     {
         std::cout << "operator ()" << std::endl;
 
@@ -157,7 +154,7 @@ public:
      * \brief get line number
      * \param line number
      */
-    virtual U32 getLineNumber(void) const
+    virtual unsigned int getLineNumber(void) const
     {
         return m_lineNum;
     }
@@ -190,7 +187,7 @@ private:
 
     std::ostringstream m_message; /*!< All string msg will be stored here. */
 
-    U32 m_lineNum;
+    unsigned int m_lineNum;
     LOG_LEVEL m_level;
     const char * const m_fileName;
     const char * const m_funcName;
@@ -248,11 +245,11 @@ inline Record& Record::operator<< <std::string>(std::string &r)
     return *this;
 }
 
-//!  All different type will store in this vector.
+/**  All different type will store in this vector.*/
 template<typename T>
 std::vector<T> Record::data;
 
-}
+}//namespace logger
 #endif /* __LOGGER_RECORD_HPP__ */
 
 /********************************* End Of File ********************************/

@@ -27,7 +27,28 @@
 /***************************** STATIC FUNCTIONS  ******************************/
 
 /***************************** PUBLIC FUNCTIONS  ******************************/
+namespace logger
+{
 
+/**
+ * \brief get logger address(pointer) which has default logger ID
+ */
+Logger<LOGGER_DEFAULT_ID>* getLogger(void)
+{
+    return Logger<LOGGER_DEFAULT_ID>::getInstance();
+}
+
+/*
+ * \brief  create a logger which has default logger ID
+ * \param  logger level
+ * \return logger reference
+ */
+Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level)
+{
+    return loggerInit<LOGGER_DEFAULT_ID>(level, nullptr /*TODO: load console logger*/);
+}
+
+}
 /***************************** CLASS VARIABLES ********************************/
 
 /***************************** CLASS PRIVATE METHOD ***************************/
