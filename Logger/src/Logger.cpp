@@ -11,7 +11,9 @@
 *******************************************************************************/
 
 /********************************* INCLUDES ***********************************/
+#include "RawStrMsgFormatter.hpp"
 #include "Logger.hpp"
+#include "ConsoleSubLogger.hpp"
 /****************************** MACRO DEFINITIONS *****************************/
 
 /********************************* NAME SPACE *********************************/
@@ -45,7 +47,9 @@ Logger<LOGGER_DEFAULT_ID>* getLogger(void)
  */
 Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level)
 {
-    return loggerInit<LOGGER_DEFAULT_ID>(level, nullptr /*TODO: load console logger*/);
+    static RawFormatter RawFormatter;
+    static ConsoleSubLoggeer consoleLogger(&RawFormatter);
+    return loggerInit<LOGGER_DEFAULT_ID>(level, &consoleLogger);
 }
 
 }

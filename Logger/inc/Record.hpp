@@ -125,6 +125,11 @@ public:
 //        return *this;
 //    }
 
+    /*
+     * \brief () operator using for store array
+     * \param address of data
+     * \param length
+     */
     template<typename T>
     Record& operator()(const T *buff, unsigned int leng);
 
@@ -142,7 +147,7 @@ public:
         for(unsigned int i = 0; i < leng; i++)
         {
             data<T>.push_back(buff + i);
-            numToStr(m_dataStr, buff + i);
+            numToStr(m_message, buff + i);
         }
 
         return *this;
@@ -197,7 +202,7 @@ public:
      * \brief get data string
      * \return string data reference
      */
-    virtual const std::string& getDataStr(void) const
+    virtual const std::string& getDataString(void) const
     {
         return m_dataStr;
     }
@@ -232,7 +237,12 @@ private:
 template<typename T>
 std::vector<T> Record::data;
 
-
+/*
+ * \brief  () operator using for store array
+ * \tparam type of buff
+ * \param  address of data
+ * \param  length
+ */
 template<typename T>
 inline Record& Record::operator()(const T *buff, unsigned int leng)
 {
@@ -248,6 +258,11 @@ inline Record& Record::operator()(const T *buff, unsigned int leng)
     return *this;
 }
 
+/*
+ * \brief () operator using for store int array
+ * \param address of data
+ * \param length
+ */
 template<>
 inline Record& Record::operator()<int>(const int *buff, unsigned int leng)
 {
@@ -256,6 +271,11 @@ inline Record& Record::operator()<int>(const int *buff, unsigned int leng)
     return *this;
 }
 
+/*
+ * \brief () operator using for store char array
+ * \param address of data
+ * \param length
+ */
 template<>
 inline Record& Record::operator()<char>(const char *buff, unsigned int leng)
 {
@@ -263,7 +283,6 @@ inline Record& Record::operator()<char>(const char *buff, unsigned int leng)
     loadArray(buff, leng);
     return *this;
 }
-
 
 /**
  *  \brief Record int number
@@ -275,7 +294,7 @@ inline Record& Record::operator<< <int>(const int &r)
     std::cout << "int number " << std::endl;
 
     data <int>.push_back(r);
-    numToStr(m_dataStr, &r);
+    numToStr(m_message, &r);
     return *this;
 }
 

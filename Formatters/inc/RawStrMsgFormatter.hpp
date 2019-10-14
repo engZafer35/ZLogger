@@ -37,7 +37,7 @@ namespace zlogger
 class RawFormatter : public IFormatter
 {
 public:
-    virtual ~RawFormatter(void);
+    virtual ~RawFormatter(void){};
 
     virtual std::string header(void) const
     {
@@ -46,10 +46,12 @@ public:
 
     virtual std::string format(const Record &record)
     {
+        std::ostringstream ostr;
         std::string retStr;
+        ostr << "[" << record.getFileName() << ":" << record.getFuncName() << ":" << record.getLineNumber()<< "]" << \
+                "->" << record.getMessage()<< "\n";
 
-        retStr = record.getMessage();
-
+        retStr = ostr.str();
         return retStr;
     }
 

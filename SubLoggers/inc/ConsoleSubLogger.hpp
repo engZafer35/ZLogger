@@ -46,6 +46,7 @@ public:
 
         setColor(record.getLogLevel());
         std::cout << m_formatter->format(record);
+        clearColor();
 
         return retVal;
     }
@@ -84,6 +85,12 @@ private: /******** private functions ********/
                 break;
         }
     }
+
+    void clearColor(void)
+    {
+        std::cout << "\x1B[0m\x1B[0K"; //clear
+    }
+
 
 private:
     IFormatter* m_formatter;

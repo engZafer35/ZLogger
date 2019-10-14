@@ -69,9 +69,7 @@ private:
 
 template <int LoggerID>
 Logger<LoggerID>::Logger(LOG_LEVEL logLevel) : m_logLevel{logLevel}, m_oggerID{LoggerID}
-{
-    std::cout << "logger created level:" << m_logLevel << std::endl;
-}
+{}
 
 template <int LoggerID>
 inline LOG_LEVEL Logger<LoggerID>::getLogLevel(void) const
@@ -106,8 +104,7 @@ inline RETURN_TYPE Logger<LoggerID>::write(Record &record)
 template <int LoggerID>
 inline void Logger<LoggerID>::operator+=(Record &record)
 {
-    std::cout << "logger created ID:" << LoggerID;
-    for (std::vector<ISubLogger*>::iterator it = m_subLoggers.begin(); it != m_subLoggers.end(); it++)
+    for (std::vector<ISubLogger*>::iterator it = m_subLoggers.begin(); it != m_subLoggers.end(); ++it)
     {
         (*it)->write(record);
     }
@@ -116,7 +113,6 @@ inline void Logger<LoggerID>::operator+=(Record &record)
 template <int LoggerID>
 inline Logger<LoggerID> & Logger<LoggerID>::addSubLogger(ISubLogger *sublogger)
 {
-
     if (nullptr != sublogger && this != sublogger)
     {
         m_subLoggers.push_back(sublogger);
