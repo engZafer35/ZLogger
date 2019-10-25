@@ -33,13 +33,13 @@
 
 namespace zlogger
 {
-
 template<typename T>
 extern inline void numToStr(std::string &str, T ptr)
 {
     std::cout << "numTostr NULLLLLL" << "\n";
 }
 
+/** \brief convert char to string */
 template<>
 inline void numToStr<char*>(std::string &str, char* ptr)
 {
@@ -48,6 +48,7 @@ inline void numToStr<char*>(std::string &str, char* ptr)
     str += "-";
 }
 
+/** \brief convert const char to string */
 template<>
 inline void numToStr<const char*>(std::string &str, const char* ptr)
 {
@@ -56,6 +57,7 @@ inline void numToStr<const char*>(std::string &str, const char* ptr)
     str += "-";
 }
 
+/** \brief convert int to string */
 template<>
 inline void numToStr<int*>(std::string &str, int* ptr)
 {
@@ -64,6 +66,7 @@ inline void numToStr<int*>(std::string &str, int* ptr)
     str += "-";
 }
 
+/** \brief convert const int to str */
 template<>
 inline void numToStr<const int*>(std::string &str, const int* ptr)
 {
@@ -72,6 +75,9 @@ inline void numToStr<const int*>(std::string &str, const int* ptr)
     str += "-";
 }
 
+/*
+ * \brief record all log message
+ */
 class Record
 {
 public:
@@ -111,19 +117,6 @@ public:
         m_message += p;
         return *this;
     }
-
-//    /*
-//     * \brief () operator using for store array
-//     * \param address of data
-//     * \param length
-//     */
-//    Record& operator()(const void *ptr, unsigned int leng)
-//    {
-//        std::cout << "operator ()" << std::endl;
-//
-//        loadArray(static_cast<const char*>(ptr), leng);
-//        return *this;
-//    }
 
     /*
      * \brief () operator using for store array
@@ -297,19 +290,6 @@ inline Record& Record::operator<< <int>(const int &r)
     numToStr(m_message, &r);
     return *this;
 }
-
-///**
-// *  \brief Record data which has reference type
-// *  \tparam any data type.
-// */
-//template<typename T>
-//inline Record& Record::operator<<(T &r)
-//{
-//    std::cout << "Template referance" << std::endl;
-//
-//    data<T*>.push_back((T*)&r);
-//    return *this;
-//}
 
 /**
  *  \brief Record data which has const reference type

@@ -14,7 +14,6 @@
 #define __CONSOLE_SUBLOGGER_HPP__
 /*********************************INCLUDES*************************************/
 #include "GlobalDefinitions.hpp"
-#include "Logger.hpp"
 #include "Record.hpp"
 #include "ISubLogger.hpp"
 #include "IFormatter.hpp"
@@ -42,6 +41,7 @@ public:
 
     virtual RETURN_TYPE write(Record &record) override
     {
+        MutexLock mutexLock(m_mutex);
         RETURN_TYPE retVal = SUCCESS;
 
         setColor(record.getLogLevel());
@@ -94,6 +94,7 @@ private: /******** private functions ********/
 
 private:
     IFormatter* m_formatter;
+    Mutex m_mutex;
 
 };
 

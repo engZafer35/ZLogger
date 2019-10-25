@@ -1,20 +1,19 @@
 /******************************************************************************
 * #Author       : Zafer Satılmış
 * #Revision     : 1.0
-* #Date         : Oct 4, 2019 - 1:36:43 PM
-* #File Name    : Singleton.hpp
-* #File Path    : /ZCommonLib/Utility/Singleton.hpp
+* #Date         : Oct 14, 2019 - 5:04:53 PM
+* #File Name    : IFileOpr.hpp
+* #File Path    : /ZLogger/Utility/inc/IFileOpr.hpp
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __UTILITY_SINGLETON_HPP__
-#define __UTILITY_SINGLETON_HPP__
+#ifndef __UTILITY_INC_IFILEOPR_HPP__
+#define __UTILITY_INC_IFILEOPR_HPP__
 /*********************************INCLUDES*************************************/
-#include <iostream>
-#include "Utility.hpp"
+
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -28,42 +27,22 @@
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /********************************* CLASS **************************************/
-template<class T>
-class Singleton : NonCopyable
+/**
+ * \brief system file operation interface class
+ *
+ */
+class IFileOpr
 {
 public:
-    Singleton()
-    {
-        if(nullptr == m_instance)
-        {
-            m_instance = static_cast<T*>(this);
-        }
-    }
+    virtual ~IFileOpr(void){}
 
-    ~Singleton()
-    {
-        if(nullptr != m_instance)
-        {
-            m_instance = nullptr;
-        }
-    }
-
-    static T* getInstance()
-    {
-        if (m_instance == nullptr)
-        {
-            return m_instance;
-        }
-    }
-
-private:
-    static T* m_instance;
+    virtual int open(const char *fileName) = 0;
+    virtual int close(int fileID) = 0;
+    virtual int write(const void *buff, unsigned int leng, unsigned int timeout) = 0;
+    virtual int read(void *buff, unsigned int leng, unsigned int timeout) = 0;
+    virtual int rename(const char *name, const char *newName) = 0;
+    virtual int seek(int ofset, int position) = 0;
 };
-
-template<class T>
-T* Singleton<T>::m_instance = nullptr;
-
-
-#endif /* __UTILITY_SINGLETON_HPP__ */
+#endif /* __UTILITY_INC_IFILEOPR_HPP__ */
 
 /********************************* End Of File ********************************/

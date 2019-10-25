@@ -58,19 +58,19 @@ namespace zlogger
 
 #define ZLOG_CONDITION(condition, logLevel, loggerID)   if (!(condition)) {;} else ZLOG_(loggerID, logLevel)
 
-#define ZLOGV_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_VERBOSE, LOGGER_DEFAULT_ID)
-#define ZLOGD_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_DEBUG, LOGGER_DEFAULT_ID)
-#define ZLOGW_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_WARNING, LOGGER_DEFAULT_ID)
-#define ZLOGE_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_ERROR, LOGGER_DEFAULT_ID)
-#define ZLOGF_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_FATAL, LOGGER_DEFAULT_ID)
-#define ZLOGN_IF(condition)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_NONE, LOGGER_DEFAULT_ID)
+#define ZLOGV_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_VERBOSE, LOGGER_DEFAULT_ID)
+#define ZLOGD_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_DEBUG, LOGGER_DEFAULT_ID)
+#define ZLOGW_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_WARNING, LOGGER_DEFAULT_ID)
+#define ZLOGE_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_ERROR, LOGGER_DEFAULT_ID)
+#define ZLOGF_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_FATAL, LOGGER_DEFAULT_ID)
+#define ZLOGN_IF(condition)                     ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_NONE, LOGGER_DEFAULT_ID)
 
-#define ZLOGV_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_VERBOSE, loggerID)
-#define ZLOGD_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_DEBUG, loggerID)
-#define ZLOGW_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_WARNING, loggerID)
-#define ZLOGE_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_ERROR, loggerID)
-#define ZLOGF_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_FATAL, loggerID)
-#define ZLOGN_IF_ID(condition, loggerID)         ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_NONE, loggerID)
+#define ZLOGV_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_VERBOSE, loggerID)
+#define ZLOGD_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_DEBUG, loggerID)
+#define ZLOGW_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_WARNING, loggerID)
+#define ZLOGE_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_ERROR, loggerID)
+#define ZLOGF_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_FATAL, loggerID)
+#define ZLOGN_IF_ID(condition, loggerID)        ZLOG_CONDITION(condition, zlogger::EN_LOG_LEVEL_NONE, loggerID)
 
 }//namespace logger
 /*******************************TYPE DEFINITIONS ******************************/

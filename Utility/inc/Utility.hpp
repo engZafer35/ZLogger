@@ -1,20 +1,19 @@
 /******************************************************************************
 * #Author       : Zafer Satılmış
 * #Revision     : 1.0
-* #Date         : Oct 4, 2019 - 1:36:43 PM
-* #File Name    : Singleton.hpp
-* #File Path    : /ZCommonLib/Utility/Singleton.hpp
+* #Date         : Oct 14, 2019 - 4:39:42 PM
+* #File Name    : Mutex.hpp
+* #File Path    : /ZLogger/Utility/inc/Mutex.hpp
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __UTILITY_SINGLETON_HPP__
-#define __UTILITY_SINGLETON_HPP__
+#ifndef __MUTEX_HPP__
+#define __MUTEX_HPP__
 /*********************************INCLUDES*************************************/
-#include <iostream>
-#include "Utility.hpp"
+#include <pthread.h>
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -28,42 +27,63 @@
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /********************************* CLASS **************************************/
-template<class T>
-class Singleton : NonCopyable
+class NonCopyable
+{
+protected:
+    NonCopyable(void){}
+
+private:
+    NonCopyable(const NonCopyable&);
+    NonCopyable& operator=(const NonCopyable&);
+};
+
+class Mutex : NonCopyable
 {
 public:
-    Singleton()
+    Mutex(void)
     {
-        if(nullptr == m_instance)
-        {
-            m_instance = static_cast<T*>(this);
-        }
+        ::pthread_mutex_init(&m_sync, 0);
     }
 
-    ~Singleton()
+    ~Mutex(void)
     {
-        if(nullptr != m_instance)
-        {
-            m_instance = nullptr;
-        }
+        ::pthread_mutex_destroy(&m_sync);
     }
 
-    static T* getInstance()
+    friend class MutexLock;
+
+private:
+    void lock(void)
     {
-        if (m_instance == nullptr)
-        {
-            return m_instance;
-        }
+        ::pthread_mutex_lock(&m_sync);
+    }
+
+    void unlock(void)
+    {
+        ::pthread_mutex_unlock(&m_sync);
     }
 
 private:
-    static T* m_instance;
+    pthread_mutex_t m_sync;
 };
 
-template<class T>
-T* Singleton<T>::m_instance = nullptr;
+class MutexLock : NonCopyable
+{
+public:
+    MutexLock(Mutex& mutex) : m_mutex(mutex)
+    {
+        m_mutex.lock();
+    }
 
+    ~MutexLock()
+    {
+        m_mutex.unlock();
+    }
 
-#endif /* __UTILITY_SINGLETON_HPP__ */
+private:
+    Mutex& m_mutex;
+};
+
+#endif /* __MUTEX_HPP__ */
 
 /********************************* End Of File ********************************/
