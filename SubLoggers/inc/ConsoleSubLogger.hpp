@@ -58,27 +58,27 @@ private: /******** private functions ********/
         {
             case EN_LOG_LEVEL_FATAL:
             {
-                std::cout << "\x1B[97m\x1B[41m"; // white on red background
-                break;
+                // white
+                std::cout << "\x1B[97m\x1B[41m"; break;
             }
 
             case EN_LOG_LEVEL_ERROR:
             {
-                std::cout << "\x1B[91m"; // red
-                break;
+                // red
+                std::cout << "\x1B[91m"; break;
             }
 
             case EN_LOG_LEVEL_WARNING:
             {
-                std::cout << "\x1B[93m"; // yellow
-                break;
+                // yellow
+                std::cout << "\x1B[93m"; break;
             }
 
             case EN_LOG_LEVEL_DEBUG:
             case EN_LOG_LEVEL_VERBOSE:
             {
-                std::cout << "\x1B[96m"; // cyan
-                break;
+                // cyan
+                std::cout << "\x1B[96m"; break;
             }
 
             default:

@@ -42,18 +42,12 @@ public:
 
     ~Singleton()
     {
-        if(nullptr != m_instance)
-        {
-            m_instance = nullptr;
-        }
+        m_instance = nullptr;
     }
 
     static T* getInstance()
     {
-        if (m_instance == nullptr)
-        {
-            return m_instance;
-        }
+        return m_instance;
     }
 
 private:
