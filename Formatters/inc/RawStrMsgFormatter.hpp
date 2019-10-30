@@ -1,20 +1,23 @@
 /******************************************************************************
 * #Author       : Zafer Satılmış
 * #Revision     : 1.0
-* #Date         : Oct 4, 2019 - 2:55:04 PM
-* #File Name    : ISubLogger.hpp
-* #File Path    : /ZCommonLib/Logger/inc/ISubLogger.hpp
+* #Date         : Oct 12, 2019 - 9:24:21 PM
+* #File Name    : RawMessageFormatter.hpp
+* #File Path    : /ZLogger/Formatters/RawMessageFormatter.hpp
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __LOGGER_INC_ISUBLOGGER_HPP__
-#define __LOGGER_INC_ISUBLOGGER_HPP__
+#ifndef __RAW_FORMATTER_HPP__
+#define __RAW_FORMATTER_HPP__
 /*********************************INCLUDES*************************************/
-#include "../../Utility/inc/GlobalDefinitions.hpp"
+#include <iostream>
+
+#include "IFormatter.hpp"
 #include "Record.hpp"
+
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -30,15 +33,35 @@
 /********************************* CLASS **************************************/
 namespace zlogger
 {
-class ISubLogger
+
+class RawFormatter : public IFormatter
 {
 public:
-    virtual ~ISubLogger(){};
-    virtual RETURN_STATUS write(Record &record) = 0;
+    virtual ~RawFormatter(void){};
+
+    virtual std::string header(void) const
+    {
+        return "";
+    }
+
+    virtual std::string format(const Record &record)
+    {
+        std::ostringstream ostr;
+        std::string retStr;
+        ostr << "[" << record.getFileName() << ":" << record.getFuncName() << ":" << record.getLineNumber()<< "]" << \
+                "->" << record.getMessage()<< "\n";
+
+        retStr = ostr.str();
+        return retStr;
+    }
+
+    virtual int getFileType(void) const
+    {
+        return 1;// TODO:
+    }
 };
 
-}
-
-#endif /* __LOGGER_INC_ISUBLOGGER_HPP__ */
+}//namespace logger
+#endif /* __RAW_MESSAGE_FORMATTER_HPP__ */
 
 /********************************* End Of File ********************************/

@@ -15,7 +15,7 @@
 /*********************************INCLUDES*************************************/
 #include <vector>
 #include <iostream>
-
+#include "GlobalDefinitions.hpp"
 #include "ISubLogger.hpp"
 #include "Singleton.hpp"
 #include "LogLevel.hpp"
@@ -23,7 +23,7 @@
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
-namespace logger
+namespace zlogger
 {
 #define LOGGER_DEFAULT_ID (0) ///<default logger ID
 }
@@ -33,7 +33,7 @@ namespace logger
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 
 /********************************* CLASS **************************************/
-namespace logger
+namespace zlogger
 {
 
 /*
@@ -55,11 +55,11 @@ public:
 
     bool checkLogLevel(LOG_LEVEL level) const;  /**< compare log level */
 
-    RETURN_TYPE write(Record &record) override; /**< write stored log data with sublogger */
+    RETURN_STATUS write(Record &record) override; /**< write stored log data with sublogger */
 
     void operator+=(Record &record);            /**< get Record data */
 
-    Logger<LoggerID> & addSubLogger(ISubLogger *subLogger); /**< add sublogger */
+    Logger<LoggerID> & addSubLogger(ISubLogger *sublogger); /**< add sublogger */
 
 private:
     LOG_LEVEL m_logLevel;
@@ -69,9 +69,7 @@ private:
 
 template <int LoggerID>
 Logger<LoggerID>::Logger(LOG_LEVEL logLevel) : m_logLevel{logLevel}, m_oggerID{LoggerID}
-{
-    std::cout << "logger created level:" << m_logLevel << std::endl;
-}
+{}
 
 template <int LoggerID>
 inline LOG_LEVEL Logger<LoggerID>::getLogLevel(void) const
@@ -92,9 +90,9 @@ inline bool Logger<LoggerID>::checkLogLevel(LOG_LEVEL level) const
 }
 
 template <int LoggerID>
-inline RETURN_TYPE Logger<LoggerID>::write(Record &record)
+inline RETURN_STATUS Logger<LoggerID>::write(Record &record)
 {
-    RETURN_TYPE retVal = SUCCESS;
+    RETURN_STATUS retVal = SUCCESS;
 
     if (checkLogLevel(record.getLogLevel()))
     {
@@ -106,8 +104,7 @@ inline RETURN_TYPE Logger<LoggerID>::write(Record &record)
 template <int LoggerID>
 inline void Logger<LoggerID>::operator+=(Record &record)
 {
-    std::cout << "logger created ID:" << LoggerID;
-    for (std::vector<ISubLogger*>::iterator it = m_subLoggers.begin(); it != m_subLoggers.end(); it++)
+    for (std::vector<ISubLogger*>::iterator it = m_subLoggers.begin(); it != m_subLoggers.end(); ++it)
     {
         (*it)->write(record);
     }
@@ -116,7 +113,6 @@ inline void Logger<LoggerID>::operator+=(Record &record)
 template <int LoggerID>
 inline Logger<LoggerID> & Logger<LoggerID>::addSubLogger(ISubLogger *sublogger)
 {
-
     if (nullptr != sublogger && this != sublogger)
     {
         m_subLoggers.push_back(sublogger);
@@ -130,7 +126,7 @@ inline Logger<LoggerID> & Logger<LoggerID>::addSubLogger(ISubLogger *sublogger)
  * \brief get logger class address(pointer)
  */
 template <int LoggerID>
-Logger<LoggerID>* getLogger(void)
+extern inline Logger<LoggerID>* getLogger(void)
 {
     return Logger<LoggerID>::getInstance();
 }
@@ -138,10 +134,7 @@ Logger<LoggerID>* getLogger(void)
 /**
  * \brief get logger address(pointer) which has default logger ID
  */
-Logger<LOGGER_DEFAULT_ID>* getLogger(void)
-{
-    return Logger<LOGGER_DEFAULT_ID>::getInstance();
-}
+Logger<LOGGER_DEFAULT_ID>* getLogger(void);
 
 /**
  * \brieff create a logger with sent id
@@ -151,7 +144,7 @@ Logger<LOGGER_DEFAULT_ID>* getLogger(void)
  * \return logger reference
  */
 template < int LoggerID>
-Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
+extern inline Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
 {
     static Logger<LoggerID> logger(level);
     return logger.addSubLogger(sublogger);
@@ -162,10 +155,7 @@ Logger<LoggerID>& loggerInit(LOG_LEVEL level, ISubLogger* sublogger = nullptr)
  * \param  logger level
  * \return logger reference
  */
-Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level = EN_LOG_LEVEL_VERBOSE)
-{
-    return loggerInit<LOGGER_DEFAULT_ID>(level, nullptr /*TODO: load console logger*/);
-}
+Logger<LOGGER_DEFAULT_ID>& loggerInit(LOG_LEVEL level = EN_LOG_LEVEL_VERBOSE);
 
 }//namespace logger
 

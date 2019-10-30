@@ -13,8 +13,8 @@
 #ifndef __UTILITY_SINGLETON_HPP__
 #define __UTILITY_SINGLETON_HPP__
 /*********************************INCLUDES*************************************/
-#include "GlobalDefinitions.hpp"
 #include <iostream>
+#include "Utility.hpp"
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -27,18 +27,7 @@
 
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
-
-class NonCopyable
-{
-protected:
-    NonCopyable(void){}
-
-private:
-    NonCopyable(const NonCopyable&);
-    NonCopyable& operator=(const NonCopyable&);
-};
 /********************************* CLASS **************************************/
-
 template<class T>
 class Singleton : NonCopyable
 {
@@ -53,16 +42,11 @@ public:
 
     ~Singleton()
     {
-        if(nullptr != m_instance)
-        {
-            m_instance = nullptr;
-        }
+        m_instance = nullptr;
     }
 
     static T* getInstance()
     {
-        if (m_instance == nullptr)
-            std::cout << " hopp null" << std::endl;
         return m_instance;
     }
 

@@ -96,7 +96,6 @@ typedef void (*VoidCallback)(void);
     typedef unsigned long       U32;
     typedef long long           S64;
     typedef unsigned long long  U64;
-    typedef S16                 RETURN_STATUS;
     typedef float               FLOAT;
     typedef double              DOUBLE;
     typedef USS                 BOOL;
@@ -115,7 +114,6 @@ typedef void (*VoidCallback)(void);
     typedef U32                 USS; //unsigned system size
     typedef long long           S64;
     typedef unsigned long long  U64;
-    typedef S32                 RETURN_STATUS;
     typedef float               FLOAT;
     typedef double              DOUBLE;
     typedef USS                 BOOL;
@@ -129,13 +127,11 @@ typedef void (*VoidCallback)(void);
 
 
 /*******************************TYPE DEFINITIONS ******************************/
-typedef enum _RETURN_TYPE
+typedef enum _RETURN_STATUS
 {
     FAILURE = -1,
-    SUCCESS = 0,
-}RETURN_TYPE;
-
-
+    SUCCESS = 0
+}RETURN_STATUS;
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 

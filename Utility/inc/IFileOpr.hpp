@@ -1,20 +1,19 @@
 /******************************************************************************
 * #Author       : Zafer Satılmış
 * #Revision     : 1.0
-* #Date         : Oct 4, 2019 - 2:55:04 PM
-* #File Name    : ISubLogger.hpp
-* #File Path    : /ZCommonLib/Logger/inc/ISubLogger.hpp
+* #Date         : Oct 14, 2019 - 5:04:53 PM
+* #File Name    : IFileOpr.hpp
+* #File Path    : /ZLogger/Utility/inc/IFileOpr.hpp
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __LOGGER_INC_ISUBLOGGER_HPP__
-#define __LOGGER_INC_ISUBLOGGER_HPP__
+#ifndef __UTILITY_INC_IFILEOPR_HPP__
+#define __UTILITY_INC_IFILEOPR_HPP__
 /*********************************INCLUDES*************************************/
-#include "../../Utility/inc/GlobalDefinitions.hpp"
-#include "Record.hpp"
+
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -28,17 +27,23 @@
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /********************************* CLASS **************************************/
-namespace zlogger
-{
-class ISubLogger
+/**
+ * \brief system file operation interface class
+ *
+ */
+class IFileOpr
 {
 public:
-    virtual ~ISubLogger(){};
-    virtual RETURN_STATUS write(Record &record) = 0;
+    virtual ~IFileOpr(void){}
+
+    virtual int open(const char *fileName) = 0;
+    virtual int opendir(const char *path) = 0;
+    virtual int close(int fileID) = 0;
+    virtual int write(const void *buff, unsigned int leng, unsigned int timeout) = 0;
+    virtual int read(void *buff, unsigned int leng, unsigned int timeout) = 0;
+    virtual int rename(const char *name, const char *newName) = 0;
+    virtual int seek(int ofset, int position) = 0;
 };
-
-}
-
-#endif /* __LOGGER_INC_ISUBLOGGER_HPP__ */
+#endif /* __UTILITY_INC_IFILEOPR_HPP__ */
 
 /********************************* End Of File ********************************/

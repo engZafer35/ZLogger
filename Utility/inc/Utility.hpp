@@ -1,20 +1,19 @@
 /******************************************************************************
 * #Author       : Zafer Satılmış
 * #Revision     : 1.0
-* #Date         : Oct 4, 2019 - 2:55:04 PM
-* #File Name    : ISubLogger.hpp
-* #File Path    : /ZCommonLib/Logger/inc/ISubLogger.hpp
+* #Date         : Oct 14, 2019 - 4:39:42 PM
+* #File Name    : Mutex.hpp
+* #File Path    : /ZLogger/Utility/inc/Mutex.hpp
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __LOGGER_INC_ISUBLOGGER_HPP__
-#define __LOGGER_INC_ISUBLOGGER_HPP__
+#ifndef __MUTEX_HPP__
+#define __MUTEX_HPP__
 /*********************************INCLUDES*************************************/
-#include "../../Utility/inc/GlobalDefinitions.hpp"
-#include "Record.hpp"
+#include <pthread.h>
 /******************************* NAME SPACE ***********************************/
 
 /**************************** MACRO DEFINITIONS *******************************/
@@ -28,17 +27,63 @@
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /********************************* CLASS **************************************/
-namespace zlogger
+class NonCopyable
 {
-class ISubLogger
-{
-public:
-    virtual ~ISubLogger(){};
-    virtual RETURN_STATUS write(Record &record) = 0;
+protected:
+    NonCopyable(void){}
+
+private:
+    NonCopyable(const NonCopyable&);
+    NonCopyable& operator=(const NonCopyable&);
 };
 
-}
+class Mutex : NonCopyable
+{
+public:
+    Mutex(void)
+    {
+        ::pthread_mutex_init(&m_sync, 0);
+    }
 
-#endif /* __LOGGER_INC_ISUBLOGGER_HPP__ */
+    ~Mutex(void)
+    {
+        ::pthread_mutex_destroy(&m_sync);
+    }
+
+    friend class MutexLock;
+
+private:
+    void lock(void)
+    {
+        ::pthread_mutex_lock(&m_sync);
+    }
+
+    void unlock(void)
+    {
+        ::pthread_mutex_unlock(&m_sync);
+    }
+
+private:
+    pthread_mutex_t m_sync;
+};
+
+class MutexLock : NonCopyable
+{
+public:
+    MutexLock(Mutex& mutex) : m_mutex(mutex)
+    {
+        m_mutex.lock();
+    }
+
+    ~MutexLock()
+    {
+        m_mutex.unlock();
+    }
+
+private:
+    Mutex& m_mutex;
+};
+
+#endif /* __MUTEX_HPP__ */
 
 /********************************* End Of File ********************************/
