@@ -39,10 +39,10 @@ public:
 
     ConsoleSubLoggeer(IFormatter* formatter) : m_formatter{formatter} {}
 
-    virtual RETURN_TYPE write(Record &record) override
+    virtual RETURN_STATUS write(Record &record) override
     {
         MutexLock mutexLock(m_mutex);
-        RETURN_TYPE retVal = SUCCESS;
+        RETURN_STATUS retVal = SUCCESS;
 
         setColor(record.getLogLevel());
         std::cout << m_formatter->format(record);

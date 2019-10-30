@@ -34,7 +34,7 @@ class ISubLogger
 {
 public:
     virtual ~ISubLogger(){};
-    virtual RETURN_TYPE write(Record &record) = 0;
+    virtual RETURN_STATUS write(Record &record) = 0;
 };
 
 }

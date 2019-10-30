@@ -70,7 +70,8 @@ inline void numToStr<int*>(std::string &str, int* ptr)
 template<>
 inline void numToStr<const int*>(std::string &str, const int* ptr)
 {
-    std::cout << "numTostr const int" << "\n";
+//    std::cout << "numTostr const int" << "\n";
+
     str += std::to_string(*ptr);
     str += "-";
 }
@@ -112,7 +113,7 @@ public:
      */
     inline Record& operator<<(const char *p)
     {
-        std::cout << "string pointer" << std::endl;
+//        std::cout << "string pointer" << std::endl;
 
         m_message += p;
         return *this;
@@ -135,7 +136,7 @@ public:
     template<typename T>
     Record& loadArray(const T buff, unsigned int leng)
     {
-        std::cout << "Template loadArray" << typeid(T).name() << std::endl;
+//        std::cout << "Template loadArray" << typeid(T).name() << std::endl;
 
         for(unsigned int i = 0; i < leng; i++)
         {
@@ -239,7 +240,7 @@ std::vector<T> Record::data;
 template<typename T>
 inline Record& Record::operator()(const T *buff, unsigned int leng)
 {
-    std::cout << "operator() ----" << "\n";
+//    std::cout << "operator() ----" << "\n";
 
     char *p = (char *)(buff);
 
@@ -259,7 +260,7 @@ inline Record& Record::operator()(const T *buff, unsigned int leng)
 template<>
 inline Record& Record::operator()<int>(const int *buff, unsigned int leng)
 {
-    std::cout << "operator() int" << "\n";
+//    std::cout << "operator() int" << "\n";
     loadArray(buff, leng);
     return *this;
 }
@@ -272,7 +273,7 @@ inline Record& Record::operator()<int>(const int *buff, unsigned int leng)
 template<>
 inline Record& Record::operator()<char>(const char *buff, unsigned int leng)
 {
-    std::cout << "operator() CHAR" << "\n";
+//    std::cout << "operator() CHAR" << "\n";
     loadArray(buff, leng);
     return *this;
 }
@@ -284,7 +285,7 @@ inline Record& Record::operator()<char>(const char *buff, unsigned int leng)
 template<>
 inline Record& Record::operator<< <int>(const int &r)
 {
-    std::cout << "int number " << std::endl;
+//    std::cout << "int number " << std::endl;
 
     data <int>.push_back(r);
     numToStr(m_message, &r);
@@ -298,7 +299,7 @@ inline Record& Record::operator<< <int>(const int &r)
 template<typename T>
 inline Record& Record::operator<<(const T &r)
 {
-    std::cout << "Template const referance" << std::endl;
+//    std::cout << "Template const referance" << std::endl;
 
     data<const T*>.push_back((const T*)&r);
 
@@ -312,7 +313,7 @@ inline Record& Record::operator<<(const T &r)
 template<>
 inline Record& Record::operator<< <std::string>(const std::string &r)
 {
-    std::cout << "Template string referance " << std::endl;
+//    std::cout << "Template string referance " << std::endl;
 
     m_message += r;
     return *this;

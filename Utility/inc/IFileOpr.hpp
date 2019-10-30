@@ -37,6 +37,7 @@ public:
     virtual ~IFileOpr(void){}
 
     virtual int open(const char *fileName) = 0;
+    virtual int opendir(const char *path) = 0;
     virtual int close(int fileID) = 0;
     virtual int write(const void *buff, unsigned int leng, unsigned int timeout) = 0;
     virtual int read(void *buff, unsigned int leng, unsigned int timeout) = 0;

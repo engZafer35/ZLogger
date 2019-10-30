@@ -55,7 +55,7 @@ public:
 
     bool checkLogLevel(LOG_LEVEL level) const;  /**< compare log level */
 
-    RETURN_TYPE write(Record &record) override; /**< write stored log data with sublogger */
+    RETURN_STATUS write(Record &record) override; /**< write stored log data with sublogger */
 
     void operator+=(Record &record);            /**< get Record data */
 
@@ -90,9 +90,9 @@ inline bool Logger<LoggerID>::checkLogLevel(LOG_LEVEL level) const
 }
 
 template <int LoggerID>
-inline RETURN_TYPE Logger<LoggerID>::write(Record &record)
+inline RETURN_STATUS Logger<LoggerID>::write(Record &record)
 {
-    RETURN_TYPE retVal = SUCCESS;
+    RETURN_STATUS retVal = SUCCESS;
 
     if (checkLogLevel(record.getLogLevel()))
     {
